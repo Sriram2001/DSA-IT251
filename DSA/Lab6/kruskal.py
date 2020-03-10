@@ -1,6 +1,5 @@
 from disjointsets import DisjointSets
 
-
 def main():
     ''' Adjacency List representation. G is a list of lists. '''
     G = []

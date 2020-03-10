@@ -12,7 +12,7 @@ class DisjointSets:
     def __init__(self):
         pass
 
-    def makeset(self, x):
+    def makeset(self, x: any) -> Node:
         return Node(x)
 
     def findset(self, x: Node) -> Node:
