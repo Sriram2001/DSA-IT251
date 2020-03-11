@@ -7,6 +7,7 @@ class Vertex:
         self.dist = dist
         self.flag = False  # Flag variable to check if multiple shortest paths exist from source to this vertex. False by default
         self.parent = self
+        self.path_len = float('inf')
         self.adj = adj  # List of node id's adjacent to this vertex
 
 
@@ -15,9 +16,9 @@ def main():
     G = []
     heap = []
     Nodes = []
-    s = int(input())
+    s = int(input("Enter source vertex: "))
 
-    file = open('inp.txt', 'r')
+    file = open('input1.txt', 'r')
     for line in file:
         line = line.strip()
         adjacentVertices = []
@@ -40,6 +41,7 @@ def main():
 
     heap.append((0, s))
     Nodes[s].dist = 0
+    Nodes[s].path_len = 0
 
     heapq.heapify(heap)
 
@@ -54,14 +56,18 @@ def main():
                     v.dist = new_dist
                     heapq.heappush(heap, (v.dist, v.id))
                     v.prev = node
-                    if v.flag:
-                        v.flag = False
+                    v.path_len = node.path_len+1
+                    # if v.flag:
+                    v.flag = node.flag
                 elif v.dist == new_dist:
+                    if(node.path_len+1 < v.path_len):
+                        v.path_len = node.path_len+1
+                        v.parent = node
                     v.flag = True
 
     for vertex in Nodes:
-        print("ID: {}\tMULTIPLE PATHS:{}\tDIST:{}".format(
-            vertex.id, 'Yes' if vertex.flag else 'No', vertex.dist))
+        print("ID: {}\tMULTIPLE PATHS:{}\tDIST:{}\tLEAST EDGES:{}".format(
+            vertex.id, 'Yes' if vertex.flag else 'No', vertex.dist, vertex.path_len))
 
 
 if __name__ == '__main__':
